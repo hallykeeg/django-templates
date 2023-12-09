@@ -1,0 +1,35 @@
+{% extends "base.html" %} {% block title%} Resultats {% endblock %} 
+{% block content%}
+<div>
+  <form>
+    {% for key, result in results.items %}
+    <div class="question-container mb-3 p-3 rounded bg-light">
+      <div class="question-content">{{ result.question_content }}</div>
+      <hr class="my-3" />
+      <div class="form-check">
+        <input disabled type="radio" id="true_{{ key }}" name="{{ key }}"
+        value="True" class="form-check-input" {% if result.user_answer == 'True'
+        %} checked {% endif %} />
+
+        <label for="true_{{ key }}" class="form-check-label">Vrai</label>
+      </div>
+      <div class="form-check">
+        <input disabled type="radio" id="false_{{ key }}" name="{{ key }}"
+        value="False" class="form-check-input" {% if result.user_answer ==
+        'False' %} checked {% endif %} />
+        <label for="false_{{ key }}" class="form-check-label">Faux</label>
+      </div>
+
+      {% if result.is_correct %}
+      <span class="text-success">&#10004; Bien joué</span>
+      {% else %}
+      <span class="text-danger">&#10008; Incorrecte</span>
+      {% endif %}
+    </div>
+    {% endfor %}
+    <div class="form-group">
+      <a class="btn btn-primary" href="/test">Nouveau test</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

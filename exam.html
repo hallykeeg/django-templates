@@ -1,0 +1,63 @@
+{% extends "base.html" %} {% block title%} Test {% endblock %} 
+{% block content%}
+<div>
+  <form method="post" action="">
+    
+    {% for question in questions %}
+    <div class="question-container mb-3 p-3 rounded bg-light">
+      <div class="question-content">{{ question.content }}</div>
+      <hr class="my-3" />
+      <div class="form-check">
+        <input type="radio" id="true_{{ question.id_question }}" name="{{ question.id_question }}" value="True"
+          class="form-check-input" 
+          {% if results %}
+            {% for key, result in results.items %}
+             
+             
+            {% if key == question.get_id_as_string and result.user_answer == 'True' %} checked {% endif %}
+
+            {% endfor %}
+          {% endif %} />
+
+        <label for="true_{{ question.id_question }}" class="form-check-label">Vrai</label>
+      </div>
+      <div class="form-check">
+        <input type="radio" id="false_{{ question.id_question }}" name="{{ question.id_question }}"
+          value="False" class="form-check-input" 
+          {% if results %}
+          
+           {% for key, result in results.items %}
+
+              {% if key == question.get_id_as_string and result.user_answer == 'False' %} checked {% endif %}
+
+            {% endfor %}
+
+          {% endif %} 
+           
+          />
+        <label for="false_{{ question.id_question }}" class="form-check-label">Faux</label>
+      </div>
+
+      {% if results %}  
+         {% for key, result in results.items %}
+             {% if key == question.get_id_as_string %}  
+                    {% if result.is_correct %}
+                      <span class="text-success">&#10004; Bien joué</span>
+                    {% else %}
+                    <span class="text-danger">&#10008; Incorrecte</span>
+                    {% endif %} 
+              {% endif %} 
+              
+          {% endfor %}
+      {% endif %}
+
+     
+      
+    </div>
+    {% endfor %}
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Soumettre</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
